@@ -1,0 +1,53 @@
+﻿body {
+    margin-bottom: 50px;
+}
+
+.top-row {
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.btn-count {
+    padding-left:4px;
+    padding-right:4px;
+}
+
+.nested-table{
+    margin-bottom: 0px;
+}
+
+.expanded-data {
+    margin-left: 20px;
+}
+
+.deleted-item {
+    color: dimgray;
+}
+
+.dead-item {
+    color: gray;
+}
+
+.item-title {
+    font-weight: bold;
+    color: black;    
+}
+
+.item-id {
+    font-weight: bold;
+    color: purple;    
+}
+
+.comment-title {
+    font-style: italic;
+}
+
+.news-subtitle {
+    font-style: italic;
+    padding-bottom: 0px;
+}
+
+.user-id {
+    font-weight: bold;
+    color: darkblue;
+}

@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="HntApp">
+<head>
+    <title>HNT - Hacker News Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="Content/bootstrap.css">
+    <link rel="stylesheet" href="Content/Hnt.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <script id="apiUrl" data-api-url="http://localhost:63157/" language="x-url"></script>
+    <script src="Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+
+    <div id="pageContent" class="container"
+         ng-controller="newsIndexController as indexCtrl" ng-cloak>
+
+        <script type="text/ng-template" id="tree_item.html">
+
+            <tr style="width:100%">
+                <td>
+                    <i class="fa" ng-class="data.childrenVisible? 'fa-comments-o' : 'fa-comments'"
+                       ng-show="data.kids && data.kids.length"
+                       ng-click="indexCtrl.toggleChildren(data)"></i>
+                </td>
+                <td>
+                    <div ng-show="data.deleted" class="deleted-item">
+                        Deleted {{data.type}} {{data.id}}
+                    </div>
+                    <div ng-show="data.dead" class="dead-item">
+                        Dead {{data.type}} {{data.id}}
+                    </div>
+                    <div ng-show="!data.deleted && !data.dead">
+                        <div ng-switch="data.type">
+                            <div ng-switch-when="comment">
+                                <p class="comment-title">Commented by <span class="user-id">{{data.by}}</span></p>
+                                <p ng-bind-html="data.text">
+
+                                </p>
+                            </div>
+                            <div ng-switch-default>
+                                <div ng-show="data.url">
+                                    <a ng-href="{{data.url}}">
+                                        {{data.title}}
+                                    </a>
+                                </div>
+                                <div ng-show="!data.url && data.title" class="item-title">
+                                    {{data.title}}
+                                </div>
+                                <div ng-show="!data.url && !data.title" class="item-id">
+                                    {{data.type}} {{data.id}}
+                                </div>
+                                <div class="news-subtitle">Published by <span class="user-id">{{data.by}}</span></div>
+                            </div>
+                        </div>
+                        <a href=""
+                           ng-show="data.kids && data.kids.length"
+                           ng-click="indexCtrl.toggleChildren(data)">
+                            {{data.kids.length}} comment(s)
+                        </a>
+                    </div>
+
+                    <div class="expanded-data" ng-show="data.childrenVisible">
+                        <table class="table table-striped nested-table">
+                            <div ng-repeat="data in data.children track by $index"
+                                 ng-show="data.id"
+                                 ng-include="'tree_item.html'"></div>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+        </script>
+
+        <!-- TOP -->
+        <h3 class="top-row">Hacker News Web API: <a href="{{indexCtrl.webApiUrl}}">{{indexCtrl.webApiUrl}}</a></h3>
+        </h3>
+
+        <!-- NEWS -->
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:30px;max-width: 30px;">
+                            <button class="btn btn-light btn-count" ng-click="indexCtrl.loadMore()">
+                                {{indexCtrl.newsList.length}}
+                            </button>
+                        </th>
+                        <th style="width:auto">
+                            <select class="form-control btn btn-sm btn-light"
+                                    ng-options="newsFeedInfo.name for newsFeedInfo in
+                                                indexCtrl.newsFeedInfoList"
+                                    ng-model="indexCtrl.selectedNewsFeedInfo"
+                                    ng-change="indexCtrl.selectedNewsFeedInfoChanged()"></select>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="data in indexCtrl.newsList track by $index"
+                       ng-show="data.id"
+                       ng-include="'tree_item.html'"></tbody>
+
+            </table>
+            <a href="" ng-click="indexCtrl.loadMore()">
+                {{indexCtrl.getMoreNewsText()}}
+            </a>
+            <p></p>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-sanitize.js"></script>
+    <script src="js/hntApp.js"></script>
+    <script src="js/Services/newsRepository.js"></script>
+    <script src="js/Controllers/News/newsIndexController.js"></script>
+
+</body>
+</html>
