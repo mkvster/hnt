@@ -106,7 +106,7 @@
                 function (result) {
                     console.log('getNewsList failed');
                     console.log(result);
-                    vm.finishNewsFeedChange();
+                    vm.finishAjax();
                 });
 
         };
